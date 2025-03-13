@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+    <h:head>
+        <h:outputStylesheet library="css" name="bootstrap.min.css"/>
+        <title>Product List</title>
+    </h:head>
+    <f:view>
+        <h:body>
+            <h:form>
+                <div class="album py-5 bg-body-tertiary">
+                    <div class="container">
+
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            <ui:repeat value="${frontEnd.products}" var="item">
+                                <div class="col">
+                                    <div class="card shadow-sm">
+                                        
+                                        <h:graphicImage style="width:420px;height:auto;" value="/resources/images/${item.image}"/>
+                                        <div class="card-body">
+                                            <p class="card-text text-center">${item.name}</p>
+                                            <p class="card-text text-center">Price: $${item.price}</p>
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <div class="btn-group">
+                                                    <h:commandButton styleClass="btn btn-sm btn-outline-secondary" 
+                                                                     action="${frontEnd.addCart(item.id)}"
+                                                                     value="Add Cart"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+            <h:outputScript library="js" name="/bootstrap.min.js"/>
+            <h:outputScript library="js" name="/jquery-3.7.1.min.js"/>
+        </h:body>
+    </f:view>
+</html>
