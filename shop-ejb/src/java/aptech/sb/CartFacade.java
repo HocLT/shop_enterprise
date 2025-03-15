@@ -9,6 +9,8 @@ import aptech.entity.OrderDetail;
 import aptech.entity.Orders;
 import aptech.entity.Product;
 import jakarta.ejb.Stateful;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import jakarta.inject.Inject;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -62,6 +64,7 @@ public class CartFacade implements CartFacadeLocal {
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void saveCart() {
         Orders ord = new Orders();
         ord.setOrderAt(LocalDate.now());

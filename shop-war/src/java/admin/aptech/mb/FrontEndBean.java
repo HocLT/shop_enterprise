@@ -11,8 +11,13 @@ import aptech.sb.ProductFacadeLocal;
 import jakarta.ejb.EJB;
 import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.SystemException;
+import jakarta.transaction.UserTransaction;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,6 +32,9 @@ public class FrontEndBean implements Serializable {
     
     @EJB
     private CartFacadeLocal cartFacade;
+    
+    @Inject
+    private UserTransaction ut;
     /**
      * Creates a new instance of FrontEndBean
      */
@@ -47,7 +55,19 @@ public class FrontEndBean implements Serializable {
     }
     
     public String saveCart() {
-        cartFacade.saveCart();
+        try {
+            ut.begin();
+            cartFacade.saveCart();
+            ut.commit();
+        } catch (Exception ex){
+            try { 
+                ut.rollback();
+                ex.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
         return "products";
     }
 }
